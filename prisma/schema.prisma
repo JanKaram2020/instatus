@@ -11,10 +11,20 @@ datasource db {
   directUrl = env("POSTGRES_URL_NON_POOLING") // uses a direct connection
 }
 
-model users {
-  id        Int      @id @default(autoincrement())
-  name      String
-  email     String   @unique
-  image     String
-  createdAt DateTime @default(now())
+model events {
+  id                    Int      @id @default(autoincrement())
+  object                String
+  actor_id              String
+  actor_name            String
+  action_id             String
+  action_object         String
+  action_name           String
+  group                 String
+  target_id             String
+  target_name           String
+  location              String
+  occurred_at           DateTime
+  metadata_redirect     String
+  metadata_description  String
+  metadata_x_request_id String
 }
