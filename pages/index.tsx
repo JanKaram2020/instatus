@@ -1,5 +1,8 @@
 import { GetServerSideProps, InferGetServerSidePropsType } from "next";
-import { GetResponse, GetResponseScheme } from "@/lib/schemas/get-events";
+import {
+  GetEventsResponseScheme,
+  GetEventsResponseType,
+} from "@/lib/schemas/get-events";
 
 export default function Home(
   data: InferGetServerSidePropsType<typeof getServerSideProps>,
@@ -15,11 +18,11 @@ export default function Home(
   );
 }
 
-export const getServerSideProps = (async () => {
+export const getServerSideProps = (async ({ query }) => {
   try {
     const eventsRes = await fetch("http://localhost:3000/api/events");
     const data = await eventsRes.json();
-    const validateRes = GetResponseScheme.safeParse(data);
+    const validateRes = GetEventsResponseScheme.safeParse(data);
     if (!validateRes.success) {
       return { props: { error: validateRes.error.toString() } };
     }
@@ -27,4 +30,4 @@ export const getServerSideProps = (async () => {
   } catch (e) {
     return { props: { error: JSON.stringify(e) } };
   }
-}) satisfies GetServerSideProps<GetResponse>;
+}) satisfies GetServerSideProps<GetEventsResponseType>;

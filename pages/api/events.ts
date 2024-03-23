@@ -1,7 +1,8 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import { ZodError } from "zod";
-import { GetHandler, GetResponse } from "@/server/events-get";
+import { GetHandler } from "@/server/events-get";
 import { PostHandler, PostResponse } from "@/server/events-post";
+import { GetResponse } from "@/lib/schemas/get-events-api";
 
 export default function handler(
   req: NextApiRequest,

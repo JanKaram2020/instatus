@@ -1,9 +1,9 @@
 import { GetServerSideProps, InferGetServerSidePropsType } from "next";
 import {
-  GetResponse,
-  GetResponseScheme,
-  SingleEventScheme,
-} from "@/lib/schemas/get-events";
+  GetSingleEventParamsScheme,
+  GetSingleEventResponseType,
+  GetSingleEventResponseScheme,
+} from "@/lib/schemas/get-single-event";
 
 export default function Home(
   data: InferGetServerSidePropsType<typeof getServerSideProps>,
@@ -20,7 +20,7 @@ export default function Home(
 }
 
 export const getServerSideProps = (async ({ query }) => {
-  const validateParams = SingleEventScheme.safeParse(query);
+  const validateParams = GetSingleEventParamsScheme.safeParse(query);
   if (!validateParams.success) {
     return { props: { error: validateParams.error.toString() } };
   }
@@ -29,7 +29,7 @@ export const getServerSideProps = (async ({ query }) => {
       "http://localhost:3000/api/events?id=" + validateParams.data.id,
     );
     const data = await eventsRes.json();
-    const validateRes = GetResponseScheme.safeParse(data);
+    const validateRes = GetSingleEventResponseScheme.safeParse(data);
     if (!validateRes.success) {
       return { props: { error: validateRes.error.toString() } };
     }
@@ -37,4 +37,4 @@ export const getServerSideProps = (async ({ query }) => {
   } catch (e) {
     return { props: { error: JSON.stringify(e) } };
   }
-}) satisfies GetServerSideProps<GetResponse>;
+}) satisfies GetServerSideProps<GetSingleEventResponseType>;
