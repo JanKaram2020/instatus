@@ -1,5 +1,6 @@
 import { GetServerSideProps, InferGetServerSidePropsType } from "next";
 import {
+  GetEventsParamsScheme,
   GetEventsResponseScheme,
   GetEventsResponseType,
 } from "@/lib/schemas/get-events";
@@ -19,13 +20,28 @@ export default function Home(
 }
 
 export const getServerSideProps = (async ({ query }) => {
+  const verifyParams = GetEventsParamsScheme.safeParse(query);
+
+  if (!verifyParams.success) {
+    return { props: { error: "wrong params provided" } };
+  }
+
   try {
-    const eventsRes = await fetch("http://localhost:3000/api/events");
+    const queryParams = new URLSearchParams(
+      verifyParams.data as unknown as Record<string, string>,
+    ).toString();
+
+    const eventsRes = await fetch(
+      "http://localhost:3000/api/events?" + queryParams,
+    );
     const data = await eventsRes.json();
+
     const validateRes = GetEventsResponseScheme.safeParse(data);
+
     if (!validateRes.success) {
       return { props: { error: validateRes.error.toString() } };
     }
+
     return { props: validateRes.data };
   } catch (e) {
     return { props: { error: JSON.stringify(e) } };
