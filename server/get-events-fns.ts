@@ -5,7 +5,7 @@ import { formatEvent } from "@/lib/format-event";
 export const getEvents = async (params?: {
   search: string;
   count: number;
-  from: number;
+  from?: number;
 }) => {
   const search = params?.search ?? "";
   const count = params?.count ?? defaultCount;

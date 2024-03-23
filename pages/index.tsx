@@ -25,9 +25,9 @@ export const getServerSideProps = (async ({ query }) => {
   if (!verifyParams.success) {
     return { props: { error: "wrong params provided" } };
   }
-
+  const { count, search } = verifyParams.data;
   try {
-    const events = await getEvents(verifyParams.data);
+    const events = await getEvents({ count, search });
 
     return { props: { data: events } };
   } catch (e) {

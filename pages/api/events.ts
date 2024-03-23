@@ -1,5 +1,4 @@
 import type { NextApiRequest, NextApiResponse } from "next";
-import { ZodError } from "zod";
 import { GetEventHandler } from "@/server/get-event-handler";
 import { PostEventHandler, PostResponse } from "@/server/post-event-handler";
 import { GetResponse } from "@/lib/schemas/get-events-api";
@@ -17,6 +16,6 @@ export default function handler(
     }
     return res.status(400).json({ error: "not allowed" });
   } catch (e) {
-    res.status(401).json({ error: e as string | ZodError });
+    res.status(401).json({ error: JSON.stringify(e) });
   }
 }
