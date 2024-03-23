@@ -1,10 +1,15 @@
 import type { Event } from "@/prisma";
-import { CreateEventType } from "@/lib/schemas/create-event";
+import { CreateEventScheme, CreateEventType } from "@/lib/schemas/create-event";
+import { z } from "zod";
 
-export type FormattedEvent = Omit<CreateEventType, "occurred_at"> & {
-  id: number;
-  occurred_at: Date;
-};
+export const FormattedEventScheme = CreateEventScheme.omit({
+  occurred_at: true,
+}).extend({
+  id: z.number(),
+  occurred_at: z.date(),
+});
+
+export type FormattedEvent = z.infer<typeof FormattedEventScheme>;
 export const formatEvent = (event: Event): FormattedEvent => ({
   id: event.id,
   object: event.object,
