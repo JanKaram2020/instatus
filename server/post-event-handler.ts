@@ -7,7 +7,7 @@ export type PostResponse =
   | { error: string | ZodError }
   | { data: { event: Event } };
 
-export const PostHandler = async (
+export const PostEventHandler = async (
   req: NextApiRequest,
   res: NextApiResponse<PostResponse>,
 ) => {

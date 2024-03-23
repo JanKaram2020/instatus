@@ -3,7 +3,7 @@ import {
   GetEventsParamsScheme,
   GetEventsResponseType,
 } from "@/lib/schemas/get-events";
-import { getEvents } from "@/server/events-get";
+import { getEvents } from "@/server/get-events-fns";
 
 export default function Home(
   data: InferGetServerSidePropsType<typeof getServerSideProps>,

@@ -1,7 +1,7 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import { ZodError } from "zod";
-import { GetHandler } from "@/server/events-get";
-import { PostHandler, PostResponse } from "@/server/events-post";
+import { GetEventHandler } from "@/server/get-event-handler";
+import { PostEventHandler, PostResponse } from "@/server/post-event-handler";
 import { GetResponse } from "@/lib/schemas/get-events-api";
 
 export default function handler(
@@ -10,10 +10,10 @@ export default function handler(
 ) {
   try {
     if (req.method === "GET") {
-      return GetHandler(req, res);
+      return GetEventHandler(req, res);
     }
     if (req.method === "POST") {
-      return PostHandler(req, res);
+      return PostEventHandler(req, res);
     }
     return res.status(400).json({ error: "not allowed" });
   } catch (e) {
