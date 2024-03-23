@@ -1,9 +1,9 @@
 import { GetServerSideProps, InferGetServerSidePropsType } from "next";
 import {
   GetEventsParamsScheme,
-  GetEventsResponseScheme,
   GetEventsResponseType,
 } from "@/lib/schemas/get-events";
+import { getEvents } from "@/server/events-get";
 
 export default function Home(
   data: InferGetServerSidePropsType<typeof getServerSideProps>,
@@ -27,22 +27,9 @@ export const getServerSideProps = (async ({ query }) => {
   }
 
   try {
-    const queryParams = new URLSearchParams(
-      verifyParams.data as unknown as Record<string, string>,
-    ).toString();
+    const events = await getEvents(verifyParams.data);
 
-    const eventsRes = await fetch(
-      "http://localhost:3000/api/events?" + queryParams,
-    );
-    const data = await eventsRes.json();
-
-    const validateRes = GetEventsResponseScheme.safeParse(data);
-
-    if (!validateRes.success) {
-      return { props: { error: validateRes.error.toString() } };
-    }
-
-    return { props: validateRes.data };
+    return { props: { data: events } };
   } catch (e) {
     return { props: { error: JSON.stringify(e) } };
   }
