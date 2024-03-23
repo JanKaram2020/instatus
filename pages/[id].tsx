@@ -3,7 +3,7 @@ import {
   GetSingleEventParamsScheme,
   GetSingleEventResponseType,
 } from "@/lib/schemas/get-single-event";
-import { getSingleEvent } from "@/server/get-events-fns";
+import { getEvent } from "@/lib/Instalog";
 
 export default function Home(
   data: InferGetServerSidePropsType<typeof getServerSideProps>,
@@ -26,11 +26,10 @@ export const getServerSideProps = (async ({ query }) => {
   }
   const { id } = validateParams.data;
   try {
-    const event = await getSingleEvent(id);
-
-    if (!event) {
+    const event = await getEvent(id);
+    if (typeof event === "string") {
       return {
-        props: { error: `no event with id ${id} found` },
+        props: { error: event },
       };
     }
     return { props: { data: event } };

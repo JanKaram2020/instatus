@@ -3,7 +3,7 @@ import {
   GetEventsParamsScheme,
   GetEventsResponseType,
 } from "@/lib/schemas/get-events";
-import { getEvents } from "@/server/get-events-fns";
+import { listEvents } from "@/lib/Instalog";
 
 export default function Home(
   data: InferGetServerSidePropsType<typeof getServerSideProps>,
@@ -27,8 +27,10 @@ export const getServerSideProps = (async ({ query }) => {
   }
   const { count, search } = verifyParams.data;
   try {
-    const events = await getEvents({ count, search });
-
+    const events = await listEvents({ count, search });
+    if (typeof events === "string") {
+      return { props: { error: events } };
+    }
     return { props: { data: events } };
   } catch (e) {
     return { props: { error: JSON.stringify(e) } };

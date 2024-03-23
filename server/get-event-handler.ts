@@ -3,15 +3,18 @@ import {
   GetEventsApiParamsScheme,
   GetResponse,
 } from "@/lib/schemas/get-events-api";
-import { getEvents, getSingleEvent } from "@/server/get-events-fns";
+import { getEvent, listEvents } from "@/lib/Instalog";
 
 export const GetEventHandler = async (
   req: NextApiRequest,
   res: NextApiResponse<GetResponse>,
 ) => {
   if (!req.query) {
-    const { events, total } = await getEvents();
-
+    const eventsRes = await listEvents();
+    if (typeof eventsRes === "string") {
+      return res.status(400).json({ error: eventsRes });
+    }
+    const { events, total } = eventsRes;
     return res.status(200).json({ data: { events, total } });
   }
 
@@ -19,24 +22,28 @@ export const GetEventHandler = async (
 
   if (params.success) {
     if ("id" in params.data) {
-      const event = await getSingleEvent(params.data.id);
+      const eventRes = await getEvent(params.data.id);
 
-      if (!event) {
-        return res
-          .status(404)
-          .json({ error: "No Event with matching id found" });
+      if (typeof eventRes === "string") {
+        return res.status(400).json({ error: eventRes });
       }
 
-      return res.status(200).json({ data: event });
+      return res.status(200).json({ data: eventRes });
     } else {
-      const { events, total } = await getEvents({
+      const eventsRes = await listEvents({
         search: params.data.search,
         count: params.data.count,
         from: params.data.from,
       });
 
+      if (typeof eventsRes === "string") {
+        return res.status(400).json({
+          error: eventsRes,
+        });
+      }
+
       return res.status(200).json({
-        data: { events, total },
+        data: eventsRes,
       });
     }
   }
