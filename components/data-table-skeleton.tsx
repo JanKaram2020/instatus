@@ -4,27 +4,26 @@ import {
   TableBody,
   TableCell,
   TableFooter,
-  TableHead,
-  TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import TableSkeletonRow from "@/components/table-skeleton-row";
+import DataTableSkeletonRow from "@/components/data-table-skeleton-row";
 import { Skeleton } from "@/components/ui/skeleton";
 import { defaultCount } from "@/lib/constants";
+import DataTableHeader from "@/components/data-table-header";
 
-const TableSkeleton = () => {
+const DataTableSkeleton = ({
+  search,
+  setSearch,
+}: {
+  search: string;
+  setSearch: (v: string) => void;
+}) => {
   return (
     <Table className={"rounded-lg bg-gray-100"}>
-      <TableHeader>
-        <TableRow>
-          <TableHead>Actor</TableHead>
-          <TableHead>Action</TableHead>
-          <TableHead>Date</TableHead>
-        </TableRow>
-      </TableHeader>
+      <DataTableHeader search={search} setSearch={setSearch} />
       <TableBody>
         {Array.from(Array(defaultCount).keys()).map((e) => {
-          return <TableSkeletonRow key={e} />;
+          return <DataTableSkeletonRow key={e} />;
         })}
       </TableBody>
       <TableFooter>
@@ -38,4 +37,4 @@ const TableSkeleton = () => {
   );
 };
 
-export default TableSkeleton;
+export default DataTableSkeleton;

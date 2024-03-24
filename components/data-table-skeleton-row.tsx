@@ -3,7 +3,7 @@ import { TableCell, TableRow } from "@/components/ui/table";
 import { getRandomGradient } from "@/lib/utils";
 import { Skeleton } from "@/components/ui/skeleton";
 
-const TableSkeletonRow = () => {
+const DataTableSkeletonRow = () => {
   return (
     <TableRow className={"bg-white"}>
       <TableCell className="font-medium">
@@ -31,4 +31,4 @@ const TableSkeletonRow = () => {
   );
 };
 
-export default TableSkeletonRow;
+export default DataTableSkeletonRow;

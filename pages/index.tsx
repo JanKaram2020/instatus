@@ -18,7 +18,7 @@ export default function HomeSwrWrapper(
     <SWRConfig
       value={{
         fallback: {
-          ["api/events?page=0" + searchQuery]: data,
+          ["api/events?page=0&search=" + searchQuery]: data,
         },
       }}
     >

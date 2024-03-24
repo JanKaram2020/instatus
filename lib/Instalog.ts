@@ -28,6 +28,9 @@ export class Instalog {
           target_id: whereCondition,
         },
         {
+          target_name: whereCondition,
+        },
+        {
           action_id: whereCondition,
         },
         {

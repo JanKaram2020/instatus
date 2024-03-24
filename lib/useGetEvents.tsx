@@ -4,12 +4,16 @@ import { useRouter } from "next/router";
 import useSWRInfinite from "swr/infinite";
 
 const useGetEvents = () => {
-  const { query } = useRouter();
-  const searchQuery = "search=" + (query.search ?? "");
+  const router = useRouter();
+  const { query, replace } = router;
+  const search = typeof query.search === "string" ? query.search : "";
+
   const getKey = (
     pageIndex: number,
     previousPageData: GetEventsResponseType,
   ) => {
+    const searchQuery = "search=" + search;
+
     if (
       previousPageData &&
       ("error" in previousPageData || !previousPageData.data)
@@ -20,7 +24,7 @@ const useGetEvents = () => {
     if (pageIndex > 0 && previousPageData.data.events.length === 0) {
       return null;
     }
-    if (pageIndex === 0) return `/api/events?` + searchQuery;
+    if (pageIndex === 0) return `/api/events?page=0&` + searchQuery;
 
     return `/api/events?page=${pageIndex}&${searchQuery}`;
   };
@@ -52,16 +56,26 @@ const useGetEvents = () => {
 
   const isRefreshing = isValidating && data && data.length === size;
 
+  const setSearch = (s: string) => {
+    const { query, pathname } = router;
+    const url = pathname + "?" + new URLSearchParams({ ...query, search: s });
+    replace(url, undefined, {
+      shallow: true,
+    });
+  };
+
   return {
     isLoadingMore,
-    isEmpty,
     isReachingEnd,
     isRefreshing,
     list,
     errorMessage,
     isLoading,
     loadMore,
+    setSearch,
+    search,
   };
 };
 
+export type UseGetEventsReturnType = ReturnType<typeof useGetEvents>;
 export default useGetEvents;
