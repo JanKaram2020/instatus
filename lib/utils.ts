@@ -29,3 +29,6 @@ export const formatDate = (d: string) =>
     timeStyle: "medium",
     dateStyle: "medium",
   }).format(new Date(d));
+
+export const fetcher = (...args: Parameters<typeof fetch>) =>
+  fetch(...args).then((res) => res.json());

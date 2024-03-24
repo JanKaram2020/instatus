@@ -14,8 +14,8 @@ export const GetEventHandler = async (
     if (typeof eventsRes === "string") {
       return res.status(400).json({ error: eventsRes });
     }
-    const { events, total } = eventsRes;
-    return res.status(200).json({ data: { events, total } });
+    const { events, totalPages } = eventsRes;
+    return res.status(200).json({ data: { events, totalPages } });
   }
 
   const params = GetEventsApiParamsScheme.safeParse(req.query);
@@ -33,7 +33,7 @@ export const GetEventHandler = async (
       const eventsRes = await listEvents({
         search: params.data.search,
         count: params.data.count,
-        from: params.data.from,
+        page: params.data.page,
       });
 
       if (typeof eventsRes === "string") {

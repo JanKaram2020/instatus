@@ -1,4 +1,4 @@
-import { defaultCount, defaultFrom } from "@/lib/constants";
+import { defaultCount, defaultPage } from "@/lib/constants";
 import prisma from "@/prisma";
 import { formatEvent } from "@/lib/format-event";
 import { CreateEventScheme, CreateEventType } from "@/lib/schemas/create-event";
@@ -9,10 +9,10 @@ export class Instalog {
     // set it and don't use it later for now
     this.SECRET_KEY = secretKey;
   }
-  async listEvents(params?: { search: string; count: number; from?: number }) {
+  async listEvents(params?: { search: string; count: number; page?: number }) {
     const search = params?.search ?? "";
     const count = params?.count ?? defaultCount;
-    const from = params?.from ?? defaultFrom;
+    const page = params?.page ?? defaultPage;
 
     const whereCondition = {
       contains: search,
@@ -46,16 +46,19 @@ export class Instalog {
         }),
         prisma.events.findMany({
           take: count,
-          skip: from,
+          skip: page * count,
           where,
         }),
       ]);
-
-      return { events: events.map(formatEvent), total: eventsCount };
+      return {
+        events: events.map(formatEvent),
+        totalPages: Math.ceil(eventsCount / count),
+      };
     } catch (e) {
       return "error happened while getting events: " + JSON.stringify(e);
     }
   }
+
   async getEvent(id: number) {
     try {
       const event = await prisma.events.findUnique({
@@ -70,6 +73,7 @@ export class Instalog {
       return `error happened while getting event with ${id}: ${JSON.stringify(e)}`;
     }
   }
+
   async createEvent(event: CreateEventType) {
     const validateEvent = CreateEventScheme.safeParse(event);
     if (!validateEvent.success) {
