@@ -10,11 +10,14 @@ import {
 } from "@/components/ui/table";
 import { formatDate, getRandomGradient } from "@/lib/utils";
 import NextLink from "next/link";
+import TableSkeletonRow from "@/components/table-skeleton-row";
+import TableSkeleton from "@/components/table-skeleton";
+import { Button } from "@/components/ui/button";
 
 export default function Home() {
   const {
     list,
-    error,
+    errorMessage,
     isLoading,
     loadMore,
     isLoadingMore,
@@ -23,15 +26,32 @@ export default function Home() {
   } = useGetEvents();
 
   if (isLoading) {
-    return "isLoading...";
+    return (
+      <main
+        className={`flex min-h-screen flex-col items-center justify-between p-6 lg:p-24 overflow-x-scroll`}
+      >
+        <TableSkeleton />
+      </main>
+    );
   }
-  if (error || !list) {
-    return "error fetching data";
+
+  if (errorMessage || !list) {
+    return (
+      <main
+        className={`flex min-h-screen items-center justify-center flex-col p-6 gap-6 lg:p-24 overflow-x-scroll`}
+      >
+        <h1 className={"text-8xl"}>Instalog</h1>
+        <h2 className={"text-xl whitespace-pre"}>{errorMessage}</h2>
+        <Button onClick={() => window.location.reload()}>
+          Reload the Page
+        </Button>
+      </main>
+    );
   }
 
   return (
     <main
-      className={`flex min-h-screen flex-col items-center justify-between p-24`}
+      className={`flex min-h-screen flex-col items-center justify-between p-6 lg:p-24 overflow-x-scroll`}
     >
       <Table className={"rounded-lg bg-gray-100"}>
         <TableHeader>
@@ -65,6 +85,11 @@ export default function Home() {
               </TableRow>
             );
           })}
+          {isLoadingMore
+            ? Array.from(Array(10).keys()).map((n) => (
+                <TableSkeletonRow key={n} />
+              ))
+            : null}
         </TableBody>
         <TableFooter>
           <TableRow>

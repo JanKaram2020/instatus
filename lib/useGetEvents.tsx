@@ -31,6 +31,12 @@ const useGetEvents = () => {
 
   const list = data?.map((d) => ("error" in d ? [] : d.data.events)).flat();
 
+  const errorMessage = error
+    ? "Error happened.\n try again later."
+    : data?.[0] && "error" in data?.[0]
+      ? data[0].error
+      : undefined;
+
   const loadMore = () => {
     setSize((p) => p + 1);
   };
@@ -54,7 +60,7 @@ const useGetEvents = () => {
     isReachingEnd,
     isRefreshing,
     list,
-    error,
+    errorMessage,
     isLoading,
     loadMore,
   };
