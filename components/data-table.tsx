@@ -25,7 +25,7 @@ const DataTable = (props: DataTableProps) => {
 
   return (
     <Table className={"rounded-lg bg-gray-100"}>
-      <DataTableHeader search={search} setSearch={setSearch} />
+      <DataTableHeader search={search} setSearch={setSearch} list={list} />
       <TableBody>
         {list.map((e) => {
           return <DataTableRow {...e} key={e.id} />;
