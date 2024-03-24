@@ -5,7 +5,7 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
 
-const colors = [
+export const gradientTwClasses = [
   "from-[rgba(243,153,74,1)] to-[rgba(179,37,226,1)]",
   "from-[rgba(137,71,254,1)] to-[rgba(179,25,254,1)]",
   "to-[rgba(243,153,74,1)] from-[rgba(179,37,226,1)]",
@@ -17,8 +17,9 @@ const directions = ["r", "l", "t", "b"];
 export const getRandomGradient = () => {
   const randomDirection =
     directions[Math.floor(Math.random() * directions.length)];
+
   return (
-    colors[Math.floor(Math.random() * colors.length)] +
+    gradientTwClasses[Math.floor(Math.random() * gradientTwClasses.length)] +
     " bg-gradient-to-" +
     randomDirection
   );
