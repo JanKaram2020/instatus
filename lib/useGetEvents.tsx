@@ -22,8 +22,6 @@ const useGetEvents = () => {
     }
     if (pageIndex === 0) return `/api/events?` + searchQuery;
 
-    console.log("key", `/api/events?page=${pageIndex}&${searchQuery}`);
-
     return `/api/events?page=${pageIndex}&${searchQuery}`;
   };
   const { data, error, isLoading, setSize, isValidating, size } =
