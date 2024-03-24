@@ -1,4 +1,5 @@
 import { GetServerSideProps, InferGetServerSidePropsType } from "next";
+import NextLink from "next/link";
 import {
   GetEventsParamsScheme,
   GetEventsResponseType,
@@ -13,35 +14,13 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-
-const colorArr = [
-  "from-[rgba(243,153,74,1)] to-[rgba(179,37,226,1)]",
-  "from-[rgba(137,71,254,1)] to-[rgba(179,25,254,1)]",
-  "to-[rgba(243,153,74,1)] from-[rgba(179,37,226,1)]",
-  "to-[rgba(137,71,254,1)] from-[rgba(179,25,254,1)]",
-];
-const directionArr = ["r", "l", "t", "b"];
-
-const getRandomGradient = () => {
-  const randomDirection =
-    directionArr[Math.floor(Math.random() * directionArr.length)];
-  return (
-    colorArr[Math.floor(Math.random() * colorArr.length)] +
-    " bg-gradient-to-" +
-    randomDirection
-  );
-};
-const formatDate = (d: string) =>
-  new Intl.DateTimeFormat("en-US", {
-    timeStyle: "medium",
-    dateStyle: "medium",
-  }).format(new Date(d));
+import { formatDate, getRandomGradient } from "@/lib/utils";
 
 export default function Home(
   data: InferGetServerSidePropsType<typeof getServerSideProps>,
 ) {
   if (data.error) {
-    return <p>Error happened while fetching data</p>;
+    return <p>{data.error}</p>;
   }
   return (
     <main
@@ -73,7 +52,9 @@ export default function Home(
                 <TableCell suppressHydrationWarning>
                   {formatDate(e.occurred_at)}
                 </TableCell>
-                <TableCell suppressHydrationWarning>={">"}</TableCell>
+                <TableCell>
+                  <NextLink href={"/" + e.id}>={">"}</NextLink>
+                </TableCell>
               </TableRow>
             );
           })}
