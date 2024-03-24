@@ -6,7 +6,7 @@ import {
 } from "@/lib/schemas/get-events";
 import { listEvents } from "@/lib/Instalog";
 import { useRouter } from "next/router";
-import Home from "@/views/Home";
+import Home from "@/views/home";
 
 export default function HomeSwrWrapper(
   data: InferGetServerSidePropsType<typeof getServerSideProps>,

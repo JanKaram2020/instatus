@@ -6,10 +6,10 @@ import {
   TableFooter,
   TableRow,
 } from "@/components/ui/table";
-import DataTableHeader from "@/components/data-table-header";
-import DataTableRow from "@/components/data-table-row";
-import DataTableSkeletonRow from "@/components/data-table-skeleton-row";
-import { type UseGetEventsReturnType } from "@/lib/useGetEvents";
+import DataTableHeader from "@/components/data-table/data-table-header";
+import DataTableRow from "@/components/data-table/data-table-row";
+import DataTableSkeletonRow from "@/components/data-table/data-table-skeleton-row";
+import { type UseGetEventsReturnType } from "@/lib/use-get-events";
 import { defaultCount } from "@/lib/constants";
 
 const DataTable = (props: DataTableProps) => {

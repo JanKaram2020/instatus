@@ -1,7 +1,7 @@
-import useGetEvents from "@/lib/useGetEvents";
-import DataTableSkeleton from "@/components/data-table-skeleton";
+import useGetEvents from "@/lib/use-get-events";
+import DataTableSkeleton from "@/components/data-table/data-table-skeleton";
 import { Button } from "@/components/ui/button";
-import DataTable from "@/components/data-table";
+import DataTable from "@/components/data-table/data-table";
 
 export default function Home() {
   const {

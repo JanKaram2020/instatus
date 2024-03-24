@@ -6,10 +6,10 @@ import {
   TableFooter,
   TableRow,
 } from "@/components/ui/table";
-import DataTableSkeletonRow from "@/components/data-table-skeleton-row";
+import DataTableSkeletonRow from "@/components/data-table/data-table-skeleton-row";
 import { Skeleton } from "@/components/ui/skeleton";
 import { defaultCount } from "@/lib/constants";
-import DataTableHeader from "@/components/data-table-header";
+import DataTableHeader from "@/components/data-table/data-table-header";
 
 const DataTableSkeleton = ({
   search,
