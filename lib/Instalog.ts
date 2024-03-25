@@ -70,7 +70,7 @@ export class Instalog {
         },
       });
 
-      if (!event) return `no event with matching ${id} found`;
+      if (!event) return `no event with matching id: ${id} found`;
       return formatEvent(event);
     } catch (e) {
       return `error happened while getting event with ${id}: ${JSON.stringify(e)}`;
