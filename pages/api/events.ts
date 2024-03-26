@@ -1,11 +1,11 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import { GetEventHandler } from "@/server/get-event-handler";
 import { PostEventHandler, PostResponse } from "@/server/post-event-handler";
-import { GetResponse } from "@/lib/schemas/get-events-api";
+import { GetEventsResponseType } from "@/lib/schemas/get-events";
 
 export default function handler(
   req: NextApiRequest,
-  res: NextApiResponse<GetResponse | PostResponse>,
+  res: NextApiResponse<GetEventsResponseType | PostResponse>,
 ) {
   try {
     if (req.method === "GET") {
