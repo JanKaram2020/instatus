@@ -1,6 +1,5 @@
 import { z } from "zod";
 import { FormattedEventScheme } from "@/lib/format-event";
-import { EventsErrors } from "@/lib/schemas/common";
 import { defaultCount, defaultPage } from "@/lib/constants";
 
 export const GetEventsParamsScheme = z.object({
@@ -10,7 +9,9 @@ export const GetEventsParamsScheme = z.object({
 });
 
 export const GetEventsResponseScheme = z.union([
-  EventsErrors,
+  z.object({
+    error: z.string(),
+  }),
   z.object({
     data: z.object({
       totalPages: z.number(),
