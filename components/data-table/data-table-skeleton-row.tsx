@@ -5,7 +5,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 
 const DataTableSkeletonRow = () => {
   return (
-    <TableRow className={"bg-white"}>
+    <TableRow className={"bg-white grid grid-cols-table"}>
       <TableCell className="font-medium">
         <div className={"flex gap-4"}>
           <div

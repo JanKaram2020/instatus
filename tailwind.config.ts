@@ -74,6 +74,9 @@ const config = {
           to: { height: "0" },
         },
       },
+      gridTemplateColumns: {
+        table: "1fr 1fr 1fr 0.25fr",
+      },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",

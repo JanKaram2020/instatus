@@ -11,6 +11,7 @@ import DataTableRow from "@/components/data-table/data-table-row";
 import DataTableSkeletonRow from "@/components/data-table/data-table-skeleton-row";
 import { type UseGetEventsReturnType } from "@/lib/use-get-events";
 import { defaultCount } from "@/lib/constants";
+import { Accordion } from "@/components/ui/accordion";
 
 const DataTable = (props: DataTableProps) => {
   const {
@@ -26,16 +27,18 @@ const DataTable = (props: DataTableProps) => {
   return (
     <Table className={"rounded-lg bg-gray-100"}>
       <DataTableHeader search={search} setSearch={setSearch} list={list} />
-      <TableBody>
-        {list.map((e) => {
-          return <DataTableRow {...e} key={e.id} />;
-        })}
-        {isLoadingMore
-          ? Array.from(Array(defaultCount).keys()).map((n) => (
-              <DataTableSkeletonRow key={n} />
-            ))
-          : null}
-      </TableBody>
+      <Accordion type="single" collapsible className="w-full" asChild>
+        <TableBody>
+          {list.map((e) => {
+            return <DataTableRow {...e} key={e.id} />;
+          })}
+          {isLoadingMore
+            ? Array.from(Array(defaultCount).keys()).map((n) => (
+                <DataTableSkeletonRow key={n} />
+              ))
+            : null}
+        </TableBody>
+      </Accordion>
       <TableFooter>
         <TableRow>
           <TableCell colSpan={4} className={"text-center"}>

@@ -52,10 +52,10 @@ const DataTableHeader = ({
           </div>
         </td>
       </TableRow>
-      <TableRow>
-        <TableHead>Actor</TableHead>
-        <TableHead>Action</TableHead>
-        <TableHead>Date</TableHead>
+      <TableRow className={"grid grid-cols-table"}>
+        <TableHead className={"flex items-center"}>Actor</TableHead>
+        <TableHead className={"flex items-center"}>Action</TableHead>
+        <TableHead className={"flex items-center"}>Date</TableHead>
       </TableRow>
     </TableHeader>
   );
