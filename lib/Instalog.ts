@@ -62,21 +62,6 @@ export class Instalog {
     }
   }
 
-  async getEvent(id: number) {
-    try {
-      const event = await prisma.events.findUnique({
-        where: {
-          id,
-        },
-      });
-
-      if (!event) return `no event with matching id: ${id} found`;
-      return formatEvent(event);
-    } catch (e) {
-      return `error happened while getting event with ${id}: ${JSON.stringify(e)}`;
-    }
-  }
-
   async createEvent(event: CreateEventType) {
     const validateEvent = CreateEventScheme.safeParse(event);
     if (!validateEvent.success) {
@@ -110,4 +95,4 @@ export class Instalog {
   }
 }
 
-export const { listEvents, createEvent, getEvent } = new Instalog("");
+export const { listEvents, createEvent } = new Instalog("");
